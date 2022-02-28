@@ -36,6 +36,12 @@ class WindowClass(QMainWindow, form_class) :
         self.cbox_list.activated[str].connect(self.list_click)
         #datetime ui
 
+        self.currencies_lists = [('AUDUSD=X', 'AUD-USD'), ('CNY=X', 'USD-CNY'), ('EURCAD=X', 'EUR-CAD'), ('EURCHF=X', 'EUR-CHF'), ('EURGBP=X', 'EUR-GBP'),
+                            ('EURHUF=X', 'EUR-HUF'), ('EURJPY=X', 'EUR-JPY'), ('EURSEK=X', 'EUR-SEK'), ('EURUSD=X', 'EUR-USD'), ('GBPJPY=X', 'GBP-JPY'),
+                            ('GBPUSD=X', 'GBP-USD'), ('HKD=X', 'USD-HKD'), ('IDR=X', 'USD-IDR'), ('INR=X', 'USD-INR'), ('JPY=X', 'USD-JPY'),
+                            ('MXN=X', 'USD-MXN'), ('MYR=X', 'USD-MYR'), ('NZDUSD=X', 'NZD-USD'), ('PHP=X', 'USD-PHP'), ('RUB=X', 'USD-RUB'),
+                            ('SGD=X', 'USD-SGD'), ('THB=X', 'USD-THB'), ('ZAR=X', 'USD-ZAR')]
+
     def buttonfunction01(self):
         with open('./pickle/samsung_stock_minmaxscaler.pickle', 'rb') as f:
             minmaxscaler = pickle.load(f)
@@ -62,21 +68,17 @@ class WindowClass(QMainWindow, form_class) :
     def btn_futures_click(self):
         self.cbox_list.clear()
         self.cbox_list.addItem('samsung')
-        self.cbox_list.addItem('선물2')
-        self.cbox_list.addItem('선물3')
 
     def btn_world_indices_click(self):
         self.cbox_list.clear()
-        self.cbox_list.addItem('세계지수1')
-        self.cbox_list.addItem('세계지수2')
-        self.cbox_list.addItem('세계지수3')
+        pass
 
     def btn_currencies_click(self):
         self.cbox_list.clear()
-        self.cbox_list.addItem('환율1')
-        self.cbox_list.addItem('환율2')
-        self.cbox_list.addItem('환율3')
-        self.cbox_list.addItem('환율4')
+        # for i in range(len(self.currencies_lists)):
+        #     self.cbox_list.addItem(self.currencies_lists[i][1])
+        for ticker, name in self.currencies_lists:
+            self.cbox_list.addItem(name)
 
     def list_click(self):
         index = str(self.cbox_list.currentIndex())
@@ -96,7 +98,7 @@ class WindowClass(QMainWindow, form_class) :
         tomorrow_predicted_value = minmaxscaler_close.inverse_transform(tomorrow_predict)
         print('%d 원' % tomorrow_predicted_value[0][0])
 
-        self.lbl_01.setText('%d 원' % tomorrow_predicted_value[0][0]) #버튼을 누르면 라벨글 변경
+        self.lbl_01.setText('내일 %s의 예측 종가는 %d원입니다.' %(text, tomorrow_predicted_value[0][0])) #버튼을 누르면 라벨글 변경
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
