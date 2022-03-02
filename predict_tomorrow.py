@@ -136,3 +136,4 @@ for updated_data, col in col_list:
     print('{}의 내일 예측값_{}'.format(col, tmr_predicted_value))
 
 #LSTM 예측
+#티커로 찾기 -> 이름으로 찾기로 변경?
