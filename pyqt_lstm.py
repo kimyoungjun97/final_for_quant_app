@@ -94,9 +94,12 @@ class WindowClass(QMainWindow, form_class) :
 
     def list_click(self):
         index = str(self.cbox_list.currentIndex())
+        int_index = int(index)
+        print('int index', int_index)
         print(index)
         text = str(self.cbox_list.currentText())
         print(text)
+
         if text == 'samsung':
             with open('./pickle/{}_stock_minmaxscaler.pickle'.format(text), 'rb') as f:
                 minmaxscaler = pickle.load(f)
@@ -112,10 +115,11 @@ class WindowClass(QMainWindow, form_class) :
             print('%d 원' % tomorrow_predicted_value[0][0])
 
             self.lbl_01.setText('내일 %s의 예측 종가는 %d원입니다.' %(text, tomorrow_predicted_value[0][0])) #버튼을 누르면 라벨글 변경
-        else:
 
+        else:
             section = 'currencies_lists'
             name = text
+
             print(len(self.currencies_lists))
             updated_High = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(section, name, 'High'))
             updated_High['Date'] = pd.to_datetime(updated_High['Date'])
@@ -142,14 +146,16 @@ class WindowClass(QMainWindow, form_class) :
 
             if a <= currentTime <= b:
                 print('하루 전 데이터까지')
-                new_data = yf.download(self.currencies_lists[0][0], start=last_date_from_previous_df + one_day,
+                print(index)
+                print(self.currencies_lists[0][0])
+                new_data = yf.download(self.currencies_lists[int_index][0], start=last_date_from_previous_df + one_day,
                                        end=Today)  # 마지막 날짜부터 어제
                 # date만 가져오는 코드 어떡하지?(시간제외)
                 print(new_data)  # 01/26(휴무일이라 안나옴) -> 01/27, 01/28 데이터만 나옴
                 print(new_data.index)
             elif c <= currentTime <= d:
                 print('마지막 종가 이전거 까지')
-                new_data = yf.download(self.currencies_lists[0][0], start=last_date_from_previous_df + one_day,
+                new_data = yf.download(self.currencies_lists[int_index][0], start=last_date_from_previous_df + one_day,
                                        end=Today)  # 마지막 날짜부터 어제-1day 데이터까지
                 new_data = new_data[:-1]
                 print(new_data)

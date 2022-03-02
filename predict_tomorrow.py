@@ -83,13 +83,13 @@ one_day = datetime.timedelta(days=1)
 # 현재 시간대에 따라 알아서 적합한 데이터갯수를 추가하여 데이터프레임을 업데이트시켜줌
 if a <= currentTime <= b:
     print('하루 전 데이터까지')
-    new_data = yf.download(world_indices[0][0], start=last_date_from_previous_df + one_day, end=Today)  # 마지막 날짜부터 어제
+    new_data = yf.download(currencies_lists[0][0], start=currencies_lists + one_day, end=Today)  # 마지막 날짜부터 어제
     # date만 가져오는 코드 어떡하지?(시간제외)
     print(new_data)  # 01/26(휴무일이라 안나옴) -> 01/27, 01/28 데이터만 나옴
     print(new_data.index)
 elif c <= currentTime <= d:
     print('마지막 종가 이전거 까지')
-    new_data = yf.download(world_indices[0][0], start=last_date_from_previous_df + one_day, end=Today)  # 마지막 날짜부터 어제-1day 데이터까지
+    new_data = yf.download(currencies_lists[0][0], start=currencies_lists + one_day, end=Today)  # 마지막 날짜부터 어제-1day 데이터까지
     new_data = new_data[:-1]
     print(new_data)
 else:
