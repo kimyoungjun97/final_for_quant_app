@@ -60,7 +60,7 @@ class WindowClass(QMainWindow, form_class) :
 
         X_train, X_test, Y_train, Y_test, last_test_data_X, last_test_data_Y = np.load('./datasets/samsung_preprocessing_30.npy', allow_pickle=True)
 
-        model = load_model('models/samsung_multivariation.h5')
+        model = load_model('./samsung_model/samsung_multivariation.h5')
 
         predict = model.predict(X_test)
         last_predict = model.predict(last_test_data_X)
@@ -79,7 +79,9 @@ class WindowClass(QMainWindow, form_class) :
 
     def btn_futures_click(self):
         self.cbox_list.clear()
-        self.cbox_list.addItem('samsung')
+        self.cbox_list.addItem('COCOA')
+        self.cbox_list.addItem('Coffee')
+        self.cbox_list.addItem('Berant-Oil')
 
     def btn_world_indices_click(self):
         self.cbox_list.clear()
@@ -91,6 +93,7 @@ class WindowClass(QMainWindow, form_class) :
         #     self.cbox_list.addItem(self.currencies_lists[i][1])
         for ticker, name in self.currencies_lists:
             self.cbox_list.addItem(name)
+        #self.section = 'currencies_lists'
 
     def list_click(self):
         index = str(self.cbox_list.currentIndex())
@@ -104,7 +107,7 @@ class WindowClass(QMainWindow, form_class) :
             with open('./pickle/{}_stock_minmaxscaler.pickle'.format(text), 'rb') as f:
                 minmaxscaler = pickle.load(f)
             X_train, X_test, Y_train, Y_test, last_test_data_X, last_test_data_Y = np.load('./datasets/{}_preprocessing_30.npy'.format(text), allow_pickle=True)
-            model = load_model('./models/{}_multivariation.h5'.format(text))
+            model = load_model('./samsung_model/{}_multivariation.h5'.format(text))
             predict = model.predict(X_test)
             last_predict = model.predict(last_test_data_X)
             tomorrow_predict = model.predict(last_test_data_X[-1].reshape(1, 30, 6))
@@ -181,6 +184,7 @@ class WindowClass(QMainWindow, form_class) :
                 else:
                     divided_new_data = new_data[[col]]
                     final_df = pd.concat([updated_data, divided_new_data])
+                    final_df = final_df.drop_duplicates()
                 final_df.to_csv('./{}_updated/{}_{}_updated.csv'.format(section, name, col), index=True)
 
                 # 마지막 30개 예측
@@ -188,7 +192,7 @@ class WindowClass(QMainWindow, form_class) :
                     minmaxscaler = pickle.load(f)
                 last30_df = final_df[-30:]
                 scaled_last30_df = minmaxscaler.transform(last30_df)
-                model = load_model('./{}_model/{}_{}_model.h5'.format(section, name, col))
+                model = load_model('./{}_models/{}_{}_model.h5'.format(section, name, col))
                 tmr_predict = model.predict(scaled_last30_df.reshape(1, 30, 1))
                 print(tmr_predict)
                 tmr_predicted_value = minmaxscaler.inverse_transform(tmr_predict)

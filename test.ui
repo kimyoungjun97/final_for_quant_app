@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="btn_01">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>110</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>종가 예측</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="lbl_01">
    <property name="geometry">
     <rect>
@@ -45,6 +32,9 @@
    </property>
   </widget>
   <widget class="QComboBox" name="cbox_list">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -52,60 +42,6 @@
      <width>76</width>
      <height>22</height>
     </rect>
-   </property>
-   <item>
-    <property name="text">
-     <string>삼성</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>주식2</string>
-    </property>
-   </item>
-   <item>
-    <property name="text">
-     <string>주식3</string>
-    </property>
-   </item>
-  </widget>
-  <widget class="QDateEdit" name="date_02">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>0</y>
-     <width>110</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QDateEdit" name="date_01">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>0</y>
-     <width>110</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="calendarPopup">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_02">
-   <property name="geometry">
-    <rect>
-     <x>260</x>
-     <y>0</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>계산</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_futures">
