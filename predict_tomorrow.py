@@ -1,17 +1,9 @@
 import yfinance as yf
 # import FinanceDataReader as fdr
 import pandas as pd
-import glob
-import matplotlib.pyplot as plt
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import *
-from tensorflow.keras.optimizers import Adam
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import load_model
 import datetime
 import pickle
-import numpy as np
 from tensorflow.keras.callbacks import EarlyStopping  # early_stopping 걸기
 # from matplotlib.backends.backend_pdf import PdfPages
 early_stopping=EarlyStopping(monitor='val_loss',patience=5) # early_stopping 걸기
@@ -47,12 +39,14 @@ print(len(futures), len(currencies_lists), len(world_indices))  # 31 23 29
 '''
 
 # 종목 입력시 이름 찾아준다.
-section = 'futures' # 'world_indicies', 'currencies'
-ticker = 'BZ=F'
-for world_indice in world_indices:
-    if world_indice[0] == ticker:
-        name = world_indice[1]
+section = 'currencies_lists' # 'world_indicies', 'currencies'
+ticker = 'AUDUSD=X'
+for currencies_list in currencies_lists:
+    if currencies_list[0] == ticker:
+        name = currencies_list[1]
         break
+
+
 
 
 # updated 데이터 먼저 가져오기(맨처음에 마지막60개 저장한 그 csv)
