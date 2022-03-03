@@ -28,7 +28,7 @@
     </font>
    </property>
    <property name="text">
-    <string>문자열 출력란</string>
+    <string>여기에 예측 값이 출력 됩니다.</string>
    </property>
   </widget>
   <widget class="QComboBox" name="cbox_list">

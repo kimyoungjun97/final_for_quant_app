@@ -37,7 +37,15 @@ class WindowClass(QMainWindow, form_class) :
         self.btn_high.clicked.connect(self.btn_high_click)
         self.btn_low.clicked.connect(self.btn_low_click)
         self.btn_close.clicked.connect(self.btn_close_click)
-        #datetime ui
+
+        #버튼이나 GUI위에 커서를 올리면 설명해주는 툴팁 표시
+        self.btn_world_indices.setToolTip('여기는 세계지수 버튼 입니다.')
+        self.btn_futures.setToolTip('여기는 선물 버튼입니다.')
+        self.btn_currencies.setToolTip('여기는 환율 버튼입니다.')
+        self.setToolTip('예측하고자 하는 버튼을 누르고 콤보박스에 원하는 종목을 클릭 후 고가, 저가, 종가 예측 버튼을 누르세요')
+        
+        #출력 라벨 가운데 정렬
+        self.lbl_01.setAlignment(Qt.AlignCenter)
 
         self.currencies_list = [('AUDUSD=X', 'AUD-USD'), ('CNY=X', 'USD-CNY'), ('EURCAD=X', 'EUR-CAD'), ('EURCHF=X', 'EUR-CHF'), ('EURGBP=X', 'EUR-GBP'),
                             ('EURHUF=X', 'EUR-HUF'), ('EURJPY=X', 'EUR-JPY'), ('EURSEK=X', 'EUR-SEK'), ('EURUSD=X', 'EUR-USD'), ('GBPJPY=X', 'GBP-JPY'),
@@ -72,7 +80,6 @@ class WindowClass(QMainWindow, form_class) :
         for ticker, name in self.world_indices_list:
             self.cbox_list.addItem(name)
 
-
     def btn_currencies_click(self):
         self.cbox_list.clear()
         self.cbox_list.setEnabled(True)
@@ -92,62 +99,6 @@ class WindowClass(QMainWindow, form_class) :
         self.text = str(self.cbox_list.currentText())
         print(self.text)
         self.name = self.text
-
-        # updated_Low = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, name, 'Low'))
-        # updated_Low['Date'] = pd.to_datetime(updated_Low['Date'])
-        # updated_Low.set_index('Date', inplace=True)
-        # updated_Close = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, name, 'Adj Close'))
-        # updated_Close['Date'] = pd.to_datetime(updated_Close['Date'])
-        # updated_Close.set_index('Date', inplace=True)
-        #
-        # a = datetime.datetime.strptime('08:00:00', '%H:%M:%S').time()
-        # b = datetime.datetime.strptime('23:59:00', '%H:%M:%S').time()
-        # c = datetime.datetime.strptime('00:00:00', '%H:%M:%S').time()
-        # d = datetime.datetime.strptime('05:59:00', '%H:%M:%S').time()
-        #
-        # currentTime = datetime.datetime.now().time()  # 현재시간만.
-        # Today = datetime.date.today()
-        # last_date_from_previous_df = pd.to_datetime(updated_Close.index[-1]).date()  # 01.25일
-        # one_day = datetime.timedelta(days=1)
-        #
-        # if a <= currentTime <= b:
-        #     print('하루 전 데이터까지')
-        #     print(index)
-        #     new_data = yf.download(self.currencies_list[int_index][0], start=last_date_from_previous_df + one_day,
-        #                            end=Today)  # 마지막 날짜부터 어제
-        #     # date만 가져오는 코드 어떡하지?(시간제외)
-        #     print(new_data)  # 01/26(휴무일이라 안나옴) -> 01/27, 01/28 데이터만 나옴
-        #     print(new_data.index)
-        # elif c <= currentTime <= d:
-        #     print('마지막 종가 이전거 까지')
-        #     new_data = yf.download(self.currencies_list[int_index][0], start=last_date_from_previous_df + one_day,
-        #                            end=Today)  # 마지막 날짜부터 어제-1day 데이터까지
-        #     new_data = new_data[:-1]
-        #     print(new_data)
-        # else:
-        #     print(' 8AM에 이후로 다시 시도하시오.')
-        #
-        # col_list = [(updated_High, 'High'), (updated_Low, 'Low'), (updated_Close, 'Adj Close')]
-        #
-        # for updated_data, col in col_list:
-        #     divided_new_data = new_data[[col]]
-        #     final_df = pd.concat([updated_data, divided_new_data])
-        #     final_df = final_df.drop_duplicates()
-        # final_df.to_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, name, col), index=True)
-        #
-        # # 마지막 30개 예측
-        # with open('./{}_minmaxscaler/{}_{}_minmaxscaler.pickle'.format(self.section, name, col), 'rb') as f:
-        #     minmaxscaler = pickle.load(f)
-        # last30_df = final_df[-30:]
-        # scaled_last30_df = minmaxscaler.transform(last30_df)
-        # model = load_model('./{}_models/{}_{}_model.h5'.format(self.section, name, col))
-        # tmr_predict = model.predict(scaled_last30_df.reshape(1, 30, 1))
-        # print(tmr_predict)
-        # tmr_predicted_value = minmaxscaler.inverse_transform(tmr_predict)
-        # print('%s의 내일예측값$ %2f ' % (text, tmr_predicted_value[0][0]))
-        # print('{}의 내일 예측값_{}'.format(col, tmr_predicted_value))
-        #
-        # self.lbl_01.setText('내일 %s의 예측 종가는 %.3f원입니다.' % (text, tmr_predicted_value[0][0]))  # 버튼을 누르면 라벨글 변경
 
     def btn_close_click(self):
         updated_Close = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, self.name, 'Adj Close'))
@@ -201,7 +152,7 @@ class WindowClass(QMainWindow, form_class) :
         print('%s의 내일예측값$ %2f ' % (self.text, tmr_predicted_value[0][0]))
         print('{}의 내일 예측값_{}'.format(col, tmr_predicted_value))
 
-        self.lbl_01.setText('내일 %s의 예측 종가는 %.3f원입니다.' % (self.text, tmr_predicted_value[0][0]))
+        self.lbl_01.setText('내일 %s의 예측 종가는 %.3f$입니다.' % (self.text, tmr_predicted_value[0][0]))
 
     def btn_high_click(self):
         updated_High = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, self.name, 'High'))
@@ -255,7 +206,7 @@ class WindowClass(QMainWindow, form_class) :
         print('%s의 내일예측값$ %2f ' % (self.text, tmr_predicted_value[0][0]))
         print('{}의 내일 예측값_{}'.format(col, tmr_predicted_value))
 
-        self.lbl_01.setText('내일 %s의 예측 최고가는 %.3f원입니다.' % (self.text, tmr_predicted_value[0][0]))  # 버튼을 누르면 라벨글 변경
+        self.lbl_01.setText('내일 %s의 예측 최고가는 %.3f $입니다.' % (self.text, tmr_predicted_value[0][0]))  # 버튼을 누르면 라벨글 변경
 
     def btn_low_click(self):
         updated_Low = pd.read_csv('./{}_updated/{}_{}_updated.csv'.format(self.section, self.name, 'Low'))
@@ -310,11 +261,6 @@ class WindowClass(QMainWindow, form_class) :
         print('{}의 내일 예측값_{}'.format(col, tmr_predicted_value))
 
         self.lbl_01.setText('내일 %s의 예측 최저가는 %.3f원입니다.' % (self.text, tmr_predicted_value[0][0]))
-
-
-
-
-
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스
