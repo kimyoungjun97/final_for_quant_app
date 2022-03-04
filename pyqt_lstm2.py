@@ -6,13 +6,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
 from tensorflow.keras.models import load_model
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 import pickle
 import datetime
-from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.preprocessing import MinMaxScaler
+
 
 #UI파일 연결
 #단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
@@ -26,7 +22,7 @@ class WindowClass(QMainWindow, form_class) :
 
     def UIClear(self):
         self.setupUi(self)
-        self.setWindowTitle('Final for quant')
+        self.setWindowTitle('Final for quant(LSTM)')
         self.setWindowIcon(QIcon('img/icons8-stock-64.png'))
 
         # 버튼에 기능을 연결하는 코드
