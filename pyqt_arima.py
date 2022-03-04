@@ -114,6 +114,7 @@ class WindowClass(QMainWindow, form_class) :
         dataset = np.reshape(predict_lstm_price.values, (lstm_len, 1))  # ( 1, lstm_len, 1) 아닌강>?
         print('dataset', dataset)
         model = load_model('./{}/{}_Lstm_model.h5'.format(self.class_name, self.class_name))
+        print('-----여기까진 에러 없음-----')
         with open('./{}/{}_minmaxscaler.pickle'.format(self.class_name, self.class_name), 'rb') as f:
             minmaxscaler = pickle.load(f)
         dataset_scaled = minmaxscaler.transform(dataset)
